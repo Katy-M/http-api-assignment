@@ -23,6 +23,9 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 // url struct is throwing a type error when I try to call the functions
 const onRequest = (request, response) => {
+  // console.log(typeof (urlStruct[request.url]));
+  // urlStruct[request.url](request, response);
+
   switch (request.url) {
     case '/':
       htmlResponse.getIndex(request, response);
@@ -61,8 +64,6 @@ const onRequest = (request, response) => {
       jsonResponse.notImplemented(request, response);
       break;
   }
-  // console.log(typeof (urlStruct[request.url]));
-  // urlStruct[request.url](request, response);
 };
 
 http.createServer(onRequest).listen(port);
