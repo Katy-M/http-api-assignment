@@ -13,11 +13,9 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
   '/success': jsonResponse.success,
   '/badrequest': jsonResponse.badRequest,
   '/unauthorized': jsonResponse.unauthorized,
-  '/unauthsuccess': jsonResponse.unauthSuccess,
   '/forbidden': jsonResponse.forbidden,
   '/internalerror': jsonResponse.internalError,
   '/notimplemented': jsonResponse.notImplemented,
-  '/validrequest': jsonResponse.validRequest,
   '/notFound': jsonResponse.notFound,
 }; */
 
@@ -42,9 +40,6 @@ const onRequest = (request, response) => {
     case '/unauthorized':
       jsonResponse.unauthorized(request, response);
       break;
-    case '/unauthsuccess':
-      jsonResponse.unauthSuccess(request, response);
-      break;
     case '/forbidden':
       jsonResponse.forbidden(request, response);
       break;
@@ -54,10 +49,7 @@ const onRequest = (request, response) => {
     case '/notimplemented':
       jsonResponse.notImplemented(request, response);
       break;
-    case '/validrequest':
-      jsonResponse.validRequest(request, response);
-      break;
-    case '/notFound':
+    case '/notfound':
       jsonResponse.notFound(request, response);
       break;
     default:

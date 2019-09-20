@@ -13,30 +13,23 @@ const success = (request, response) => {
   respondJSON(request, response, 200, responseJSON);
 };
 
-const unauthSuccess = (request, response) => {
-  const responseJSON = {
-    message: 'You were successfully authenticated.',
-  };
-
-  respondJSON(request, response, 200, responseJSON);
-};
-
-const validRequest = (request, response, params) => {
-  const responseJSON = {
-    message: `This request has the required parameters (${params}).`,
-  };
-
-  respondJSON(request, response, 200, responseJSON);
-};
-
 
 // Client error responses
 const badRequest = (request, response, params) => {
-  const responseJSON = {
-    message: `This request does not have the required parameters (${params}).`,
-  };
+  if (params === '?valid=true') {
+    const responseJSON = {
+      message: `This request has the required parameters (${params}).`,
+    };
 
-  respondJSON(request, response, 400, responseJSON);
+    respondJSON(request, response, 200, responseJSON);
+  } else {
+    const responseJSON = {
+      message: `This request does not have the required parameters (${params}).`,
+      id: 'badRequest',
+    };
+
+    respondJSON(request, response, 400, responseJSON);
+  }
 };
 
 const notFound = (request, response) => {
@@ -48,13 +41,17 @@ const notFound = (request, response) => {
   respondJSON(request, response, 404, responseJSON);
 };
 
-const unauthorized = (request, response) => {
-  const responseJSON = {
-    message: 'You must be logged in to access.',
-    id: 'unauthorized',
-  };
+const unauthorized = (request, response, query) => {
+  const responseJSON = {};
+  if (query === '?loggedIn=true') {
+    respondJSON.message = 'You are successfully authenticated.';
+    respondJSON(request, response, 200, responseJSON);
+  } else {
+    respondJSON.message = 'You must be logged in to access.';
+    respondJSON.id = 'unauthorized';
 
-  respondJSON(request, response, 401, responseJSON);
+    respondJSON(request, response, 401, responseJSON);
+  }
 };
 
 const forbidden = (request, response) => {
@@ -91,9 +88,7 @@ module.exports = {
   badRequest,
   notFound,
   unauthorized,
-  unauthSuccess,
   forbidden,
   internalError,
   notImplemented,
-  validRequest,
 };
